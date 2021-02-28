@@ -95,21 +95,17 @@ export LANG=en_IN.UTF-8
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
 alias zshrc="$EDITOR ~/.zshrc"
 alias vimrc="$EDITOR ~/.config/nvim/init.vim"
 alias tmuxconf="$EDITOR ~/.tmux.conf"
 # alias ohmyzsh="nnn ~/.oh-my-zsh"
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias rm="rm -vI"
+alias mkdir="mkdir -vp"
+alias fd="fdfind"
 
-alias \
-  cp="cp -iv" \
-  mv="mv -iv" \
-  rm="rm -vI" \
-  mkdir="mkdir -vp" \
-  fd="fdfind" \
-
-# alias for dotfiles management
+# Alias for dotfiles management
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 # z data directory
@@ -120,7 +116,7 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE="$HOME/.cache/zsh/history"
 
-# vi mode
+# Activate vi key binding
 bindkey -v
 export KEYTIMEOUT=1
 
@@ -158,13 +154,20 @@ source /usr/share/doc/fzf/examples/completion.zsh
 
 # Use $ ^ , ' ! in search terms
 export FZF_DEFAULT_OPS="--extended"
-# Setting fd as the default source for fzf
-export FZF_DEFAULT_COMMAND='fdfind --type f'
+
+# export FZF_DEFAULT_COMMAND='fdfind --type f'
+export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+
+# fzf ctrl + t options
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+# fzf ctrl + r options
 # '?' prints command preview
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-# cd into directory using fzf
+
+# fzf Alt + c; cd into directory using fzf
+export FZF_ALT_C_COMMAND="fdfind --type d --hidden --follow --exclude '.git' --exclude 'node_modules'"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
 bindkey '^[[P' delete-char
@@ -173,6 +176,45 @@ bindkey '^[[P' delete-char
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
+# find-in-file - usage: fif <SEARCH_TERM>
+fif() {
+  if [ ! "$#" -gt 0 ]; then
+    echo "Need a string to search for!";
+    return 1;
+  fi
+  rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+}
+
+# Select a docker container to start and attach to
+function da() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
+}
+
+# Select a running docker container to stop
+function ds() {
+  local cid
+  cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker stop "$cid"
+}
+
+# Select a docker container to remove
+function drm() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker rm "$cid"
+}
+
+# like normal z when used with arguments but displays an fzf prompt when used without.
+unalias z 2> /dev/null
+z() {
+    [ $# -gt 0 ] && _z "$*" && return
+    cd "$(_z -l 2>&1 | fzf --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
 
 # PAPI settings
 # export PAPI_DIR=$HOME/.local/app/papi/src/install
