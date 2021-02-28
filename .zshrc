@@ -8,7 +8,7 @@ export ZSH="/home/user/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="frontcube"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -21,7 +21,7 @@ ZSH_THEME="robbyrussell"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -78,13 +78,15 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LC_ALL=en_IN.UTF-8
+export LANG=en_IN.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+ if [[ -n $SSH_CONNECTION ]]; then
+   export EDITOR='vim'
+ else
+   export EDITOR='nvim'
+ fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -95,8 +97,11 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias zshrc="$EDITOR ~/.zshrc"
+alias vimrc="$EDITOR ~/.config/nvim/init.vim"
+alias tmuxconf="$EDITOR ~/.tmux.conf"
+# alias ohmyzsh="nnn ~/.oh-my-zsh"
+
 alias \
   cp="cp -iv" \
   mv="mv -iv" \
@@ -109,6 +114,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 # z data directory
 export _Z_DATA="$HOME/.cache/z/.z"
+
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -154,8 +160,12 @@ source /usr/share/doc/fzf/examples/completion.zsh
 export FZF_DEFAULT_OPS="--extended"
 # Setting fd as the default source for fzf
 export FZF_DEFAULT_COMMAND='fdfind --type f'
-# To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+# '?' prints command preview
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+# cd into directory using fzf
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
 bindkey '^[[P' delete-char
 
