@@ -127,3 +127,5 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 #export PATH=${PAPI_DIR}/bin:$PATH
 #export LD_LIBRARY_PATH=${PAPI_DIR}/lib:$LD_LIBRARY_PATH
 source "$HOME/.cargo/env"
+
+source /home/user/.config/broot/launcher/bash/br
