@@ -128,4 +128,8 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 #export LD_LIBRARY_PATH=${PAPI_DIR}/lib:$LD_LIBRARY_PATH
 source "$HOME/.cargo/env"
 
+# Broot 
 source /home/user/.config/broot/launcher/bash/br
+
+# Fzf local install
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -81,6 +81,9 @@ source $ZSH/oh-my-zsh.sh
 export LC_ALL=en_IN.UTF-8
 export LANG=en_IN.UTF-8
 
+# Colourful man pages
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
@@ -149,8 +152,9 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 # fzf completions
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+# source /usr/share/doc/fzf/examples/key-bindings.zsh
+# source /usr/share/doc/fzf/examples/completion.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Use $ ^ , ' ! in search terms
 export FZF_DEFAULT_OPS="--extended"
@@ -221,4 +225,21 @@ z() {
 # export PATH=${PAPI_DIR}/bin:$PATH
 # export LD_LIBRARY_PATH=${PAPI_DIR}/lib:$LD_LIBRARY_PATH
 
+function tnail() {
+  [[ $# != 1 ]] && echo "tnail <Video Title>" && return
+  local link=$(youtube-dl --get-thumbnail "ytsearch:$1")
+  echo "LINK is " $link
+  [[ $(echo $link | wc -l) != 1 ]] && echo "Multiple Links detected!" && return 
+  wget $link
+}
+
+function tlnail() {
+  [[ $# != 1 ]] && echo "tnail <Video Link>" && return
+  local link=$(youtube-dl --get-thumbnail "$1")
+  echo "LINK is " $link
+  [[ $(echo $link | wc -l) != 1 ]] && echo "Multiple Links detected!" && return 
+  wget $link
+}
+
 source /home/user/.config/broot/launcher/bash/br
+
