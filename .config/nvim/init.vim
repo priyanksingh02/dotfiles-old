@@ -17,8 +17,8 @@ map <C-H> <C-W>h
 map <C-L> <C-W>l
 
 " Open new splits easily
-map vv <C-W>v
-map ss <C-W>s
+"map vv <C-W>v
+"map ss <C-W>s
 map Q  <C-W>q
 nnoremap <leader>o <C-W>o
 
@@ -57,6 +57,7 @@ else
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'mechatroner/rainbow_csv' 
   call plug#end()
 
   " Tab settings
