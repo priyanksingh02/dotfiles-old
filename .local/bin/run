@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Compiles various programs
+[ $# != 1 ] && echo "USAGE: run <file>" && exit 1
+
+file=$(readlink -f "$1")
+#dir=${file%/*}
+#base="${file%.*}"
+ext="${file##*.}"
+
+[ -f "$file" ] || { echo "$file" "not found!" && exit 2; }
+
+case "$ext" in
+    cpp) g++ -std=c++17 -O2 -Wall "$file" -o /tmp/app && /tmp/app ;;
+    c) gcc "$file" -o /tmp/appc && /tmp/appc ;;
+    py) python "$file" ;;
+    *) echo "$ext" "not supported!"
+esac

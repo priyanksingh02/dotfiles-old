@@ -107,6 +107,8 @@ alias mv="mv -iv"
 alias rm="rm -vI"
 alias mkdir="mkdir -vp"
 alias fd="fdfind"
+alias python="python3"
+alias ipython="ipython3"
 
 # Alias for dotfiles management
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
@@ -243,3 +245,12 @@ function tlnail() {
 
 source /home/user/.config/broot/launcher/bash/br
 
+# nvm 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/zsh_completion" ] && \. "$NVM_DIR/zsh_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/user/.sdkman"
+[[ -s "/home/user/.sdkman/bin/sdkman-init.sh" ]] && source "/home/user/.sdkman/bin/sdkman-init.sh"
