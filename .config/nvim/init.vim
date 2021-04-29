@@ -58,6 +58,7 @@ else
   Plug 'junegunn/fzf.vim'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'mechatroner/rainbow_csv' 
+  Plug 'gruvbox-community/gruvbox'
   call plug#end()
 
   " Tab settings
@@ -114,8 +115,9 @@ else
   " end: 'vimwiki/vimwiki'
 
   " start: 'tomasr/molokai'
-  let g:molokai_original = 1
-  colorscheme molokai
+  "let g:molokai_original = 1
+  "colorscheme molokai
+  colorscheme gruvbox
   " end: 'tomasr/molokai'
 
   " start: vim-airline
