@@ -57,8 +57,9 @@ else
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'christoomey/vim-tmux-navigator'
-  Plug 'mechatroner/rainbow_csv' 
+  Plug 'mechatroner/rainbow_csv'
   Plug 'gruvbox-community/gruvbox'
+  Plug 'tpope/vim-fugitive'
   call plug#end()
 
   " Tab settings
@@ -96,6 +97,7 @@ else
   " read/write file when switching buffers
   set autowrite
   set autoread
+  set hidden
 
   " See help fo
   set formatoptions=qrnj1
@@ -132,8 +134,11 @@ else
   nnoremap <Leader>d :NERDTreeToggle<cr>
   nnoremap <silent> <Leader>v :NERDTreeFind<cr>
   " Automatically close NerdTree
-  " let NERDTreeQuitOnOpen = 1
+  let NERDTreeQuitOnOpen = 1
   " end: NerdTree
+
+  "Remove all trailing whitespace by pressing F5
+  nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
   " FZF settings
   nnoremap <silent> <Leader>t :Files<cr>
@@ -146,7 +151,7 @@ else
   nnoremap <silent> <Leader>H :Helptags<CR>
   nnoremap <silent> <Leader>hh :History<CR>
   nnoremap <silent> <Leader>h: :History:<CR>
-  nnoremap <silent> <Leader>h/ :History/<CR> 
+  nnoremap <silent> <Leader>h/ :History/<CR>
 
   " Stop :Rg from matching files names in search
   command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)

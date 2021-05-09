@@ -1,7 +1,7 @@
 # dotfiles
 Dotfiles from my linux machine
 
-# Installation
+## Installation
 [Link to Original Blog](https://www.atlassian.com/git/tutorials/dotfiles)
 
 ```sh
@@ -21,3 +21,14 @@ config checkout
 config config status.showUntrackedFiles no
 
 ```
+## Software Packages
+
+Terminal : Kitty
+Shell : fish
+Window Manager : DWM
+Launcher : Dmenu/rofi
+Wallpaper : nitrogen
+Editor : Neovim
+Virtual Machine : Virtualbox
+Wiki + Notebook : vimwiki
+
